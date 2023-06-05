@@ -47,9 +47,18 @@ const createSlideshow = function () {
                 nodes.image = arguments[0]
                 nodes.caption = arguments[1]
             }
-            timer = setInterval(displayNextImage, 2000)
+            timer = setInterval(displayNextImage, speed)
             return this
         },
+        setSpeed: function (newSpeed) {
+            speed = newSpeed; // Update the speed variable
+            clearInterval(timer); // Restart the slideshow with the new speed
+            timer = setInterval(displayNextImage, speed);
+          },
+        getSpeed: function () {
+        return speed; // Return the current speed
+        },
+        
         createToggleHandler: function () {
             let me = this
             // CLOSURE TO BE USED AS THE CLICK EVENT HANDLER
