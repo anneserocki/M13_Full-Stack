@@ -31,6 +31,18 @@ const createSlideshow = function () {
         }
     }
 
+    const setSpeed = function () {
+        const newSpeed = parseInt(prompt("Enter the new speed (in milliseconds):"));
+        if (!isNaN(newSpeed) && newSpeed > 0) {
+          speed = newSpeed;
+          createSlideshow();
+        }
+      };
+    
+      const getSpeed = function () {
+        return speed;
+      };
+
     // PUBLIC METHODS THAT HAVE ACCESS TO PRIVATE VARIABLES AND FUNCTIONS
     return {
         loadImages: function (slides) {
@@ -47,18 +59,9 @@ const createSlideshow = function () {
                 nodes.image = arguments[0]
                 nodes.caption = arguments[1]
             }
-            timer = setInterval(displayNextImage, speed)
+            timer = setInterval(displayNextImage)
             return this
-        },
-        setSpeed: function (newSpeed) {
-            speed = newSpeed; // Update the speed variable
-            clearInterval(timer); // Restart the slideshow with the new speed
-            timer = setInterval(displayNextImage, speed);
-          },
-        getSpeed: function () {
-        return speed; // Return the current speed
-        },
-        
+        },     
         createToggleHandler: function () {
             let me = this
             // CLOSURE TO BE USED AS THE CLICK EVENT HANDLER
@@ -74,9 +77,11 @@ const createSlideshow = function () {
                 // TOGGLE PLAY 'FLAG'
                 play = !play
             }
-        }
-    }
-}
+        },        
+        setSpeed: setSpeed,
+        getSpeed: getSpeed,
+    };
+};
 
 // CREATE THE SLIDESHOW OBJECT
 const slideshow = createSlideshow()
@@ -94,4 +99,9 @@ window.addEventListener('load', () => {
     slideshow.loadImages(slides).startSlideShow($('image'), $('caption'))
     // PAUSE THE SLIDESHOW
     $('play_pause').onclick = slideshow.createToggleHandler()
+    // SET THE SPEED OF THE SLIDESHOW
+    $("set_speed").onclick = function () {
+        slideshow.setSpeed();
+    };
+
 })
