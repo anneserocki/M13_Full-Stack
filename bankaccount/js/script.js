@@ -28,11 +28,13 @@ function bankAccount(ownerName) {
     };
   }
 
-  const account = bankAccount("");
+  // 
+  let account;
 
   document.getElementById("nameBtn").addEventListener("click", function() {
     const name = prompt("Enter your name:");
-    account.ownerName = name;
+    account = bankAccount(name);
+    updateAccountDetails();
   });
 
   document.getElementById("depositBtn").addEventListener("click", function() {
@@ -51,7 +53,7 @@ function bankAccount(ownerName) {
     if (success) {
       updateAccountDetails();
     } else {
-      alert("Invalid withdrawal amount.");
+      alert("Invalid withdrawal amount or insufficient balance");
     }
   });
 
